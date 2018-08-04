@@ -22,12 +22,20 @@ local playermodels =
 }
 
 function GM:PlayerInitialSpawn( ply )
-	ply.SetTeam(1)
+	ply:SetTeam(1)
+	hook.Call( "PlayerSpawn", GAMEMODE, ply )
 end
 
 function GM:PlayerSpawn(ply)
-	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 	local col = team.GetColor(ply:Team())
 	ply:SetModel(table.Random(playermodels))
 	ply:SetPlayerColor(Vector(col.r/255,col.g/255,col.b/255))
+	hook.Call( "PlayerLoadout", GAMEMODE, ply )
+end
+
+function GM:PlayerLoadout(ply)
+	ply:Give("weapon_crowbar")
+	ply:SetJumpPower(200)
+	ply:SetDuckSpeed(0.01)
+	ply:SetUnDuckSpeed(0.01)
 end
