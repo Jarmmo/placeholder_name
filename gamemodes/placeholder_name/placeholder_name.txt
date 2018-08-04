@@ -1,0 +1,8 @@
+"placeholder_name"
+{
+	"base"		"base"
+	"title"		"placeholder_name"
+	"maps"		"^de_|^cs_|^as_|^ch_|^gm_|^rp_"
+	"menusystem"	"1"
+	"workshopid"	""
+}
