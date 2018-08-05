@@ -6,8 +6,11 @@ states.Set = function(state)
 	if(states.ValidStates[state] != nil)then
 		s = states.ValidStates[state]
 		placeholder_name.State = s
-		if(SERVER and s.server != nil)then
-			s.server()
+		if(SERVER)then
+			states.RefreshState(s.name)
+			if(s.server != nil)then
+				s.server()
+			end
 		elseif(CLIENT)then
 			hook.Remove("HUDPaint","GameStateDraw")
 			if(s.client != nil)then
@@ -31,26 +34,36 @@ states.Add = function(state)
 end
 
 
-	
-if CLIENT then
-	states.RefreshState = function()
+states.RefreshState = function(state,ply)
+	if CLIENT then
 		net.Start("RequestStateRefresh")
 		net.SendToServer()
+	elseif SERVER then
+		if(ply != nil)then
+			net.Start("StateRefresh")
+			net.WriteString(state)
+			net.Send(ply)
+		else
+			net.Start("StateRefresh")
+			net.WriteString(state)
+			net.Broadcast()
+		end
 	end
+end
+if CLIENT then
 	net.Receive("StateRefresh",function()
 		states.Set(net.ReadString())
 	end)
-	hook.Add("HUDPaint","badcode",function()
-		states.RefreshState()
-		hook.Remove("HUDPaint","badcode")
-	end)
 elseif SERVER then
-util.AddNetworkString("RequestStateRefresh")
-util.AddNetworkString("StateRefresh")
+	util.AddNetworkString("RequestStateRefresh")
+	util.AddNetworkString("StateRefresh")
+
+	hook.Add("PlayerSpawn","StateRefresh",function(ply)
+		states.RefreshState(placeholder_name.State.name,ply)
+	end)
+
 	net.Receive("RequestStateRefresh",function(_,ply)
-		net.Start("StateRefresh")
-		net.WriteString(placeholder_name.State.name)
-		net.Send(ply)
+		states.RefreshState(placeholder_name.State.name,ply)
 	end)
 end
 
