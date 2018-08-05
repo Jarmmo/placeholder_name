@@ -17,7 +17,10 @@ states.Set = function(state)
 				s.client()
 			end
 			if(s.draw != nil)then
-				hook.Add("HUDPaint","GameStateDraw",s.draw)
+				local time = SysTime()
+				hook.Add("HUDPaint","GameStateDraw",function()
+					s.draw(time)
+				end)
 			end
 		end
 	end

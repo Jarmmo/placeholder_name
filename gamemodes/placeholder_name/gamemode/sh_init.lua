@@ -22,6 +22,15 @@ function placeholder_name:Initialize()
 	end
 end
 
+function placeholder_name:PlayerDisconnected()
+	print("aa"..player.GetCount())
+	if(player.GetCount() <= 3)then
+		timer.Simple(0,function()
+			states.Set("waiting")
+		end)
+	end
+end
+
 function placeholder_name:CreateTeams()
 	team.SetUp( 0, "Spectator", Color(200, 200, 200))
 	team.SetUp( 1, "Player", Color(100, 255, 100))
@@ -34,7 +43,7 @@ function LoadFolder(folder)
 				include(folder.."/"..v)
 			end
 
-			if(string.StartWith(v,"sh_") or string.StartWith(v,"state_"))then
+			if(string.StartWith(v,"sh_"))then
 				include(folder.."/"..v)
 				AddCSLuaFile(folder.."/"..v)
 			end
@@ -43,13 +52,25 @@ function LoadFolder(folder)
 				AddCSLuaFile(folder.."/"..v)
 			end
 		elseif CLIENT then
-			if (string.StartWith(v,"sh_") or string.StartWith(v,"state_") or string.StartWith(v,"cl_")) then
-				include(folder.."/"..v);	
+			if (string.StartWith(v,"sh_") or string.StartWith(v,"cl_")) then
+				include(folder.."/"..v);
 			end
 		end
-
+	end
+	for k,v in pairs(file.Find("placeholder_name/gamemode/"..folder.."/*.lua","LUA"))do
+		if SERVER then
+			if (string.StartWith(v,"event_") or string.StartWith(v,"state_"))then
+				AddCSLuaFile(folder.."/"..v);
+				include(folder.."/"..v);
+			end
+		elseif CLIENT then
+			if (string.StartWith(v,"event_") or string.StartWith(v,"state_"))then
+				include(folder.."/"..v);
+			end
+		end
 	end
 end
 
 LoadFolder("core")
 LoadFolder("core/states")
+LoadFolder("core/events")

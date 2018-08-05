@@ -34,7 +34,13 @@ function placeholder_name:PlayerSpawn(ply)
 end
 
 function placeholder_name:PlayerLoadout(ply)
-	ply:Give("weapon_crowbar")
+	if(placeholder_name.State.name == "game")then
+		ply:Give("weapon_crowbar")
+		ply:GodDisable()
+	else
+		ply:GodEnable()
+	end
+
 	ply:SetJumpPower(200)
 	ply:SetDuckSpeed(0.01)
 	ply:SetUnDuckSpeed(0.01)

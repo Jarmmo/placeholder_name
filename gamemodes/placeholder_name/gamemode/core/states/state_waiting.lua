@@ -1,13 +1,22 @@
 function serverf()
-	hook.Add("PlayerInitialSpawn","PlayerWait",function()
-		if(player.GetCount() >= 2)then
-			hook.Remove("PlayerInitialSpawn","PlayerWait")
+	print("waiting")
+
+	events.EndEventCycle()
+
+	hook.Add("PlayerSpawn","PlayerWait",function()
+		if(player.GetCount() >= 3)then
+			hook.Remove("PlayerSpawn","PlayerWait")
 			states.Set("game")
 		end
 	end)
+
+	for k,v in pairs(player.GetAll())do
+		v:Spawn()
+	end
 end
 
 function clientf()
+	print("waiting")
 end
 
 function drawf()

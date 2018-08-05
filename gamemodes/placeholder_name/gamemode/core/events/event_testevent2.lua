@@ -1,0 +1,1 @@
+events.AddEvent({name = "testevent2",client = function() print("client 2!") end, server = function() print("server 2!") end})
