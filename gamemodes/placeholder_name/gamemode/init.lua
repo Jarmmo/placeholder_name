@@ -21,19 +21,19 @@ local playermodels =
 	"models/player/group01/male_09.mdl"
 }
 
-function GM:PlayerInitialSpawn( ply )
+function placeholder_name:PlayerInitialSpawn( ply )
 	ply:SetTeam(1)
-	hook.Call( "PlayerSpawn", GAMEMODE, ply )
+	hook.Call("PlayerSpawn", GAMEMODE, ply)
 end
 
-function GM:PlayerSpawn(ply)
+function placeholder_name:PlayerSpawn(ply)
 	local col = team.GetColor(ply:Team())
 	ply:SetModel(table.Random(playermodels))
 	ply:SetPlayerColor(Vector(col.r/255,col.g/255,col.b/255))
-	hook.Call( "PlayerLoadout", GAMEMODE, ply )
+	hook.Call("PlayerLoadout", GAMEMODE, ply)
 end
 
-function GM:PlayerLoadout(ply)
+function placeholder_name:PlayerLoadout(ply)
 	ply:Give("weapon_crowbar")
 	ply:SetJumpPower(200)
 	ply:SetDuckSpeed(0.01)
