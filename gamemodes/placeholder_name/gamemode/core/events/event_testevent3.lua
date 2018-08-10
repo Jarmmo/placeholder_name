@@ -1,1 +1,1 @@
-events.AddEvent({name = "testevent3",client = function() print("client 3!") end, server = function() print("server 3!") end})
+--events.AddEvent({name = "testevent3",client = function() print("client 3!") end, server = function() print("server 3!") end, drawcurrent = true})

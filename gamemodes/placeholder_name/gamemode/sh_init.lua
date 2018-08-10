@@ -23,8 +23,7 @@ function placeholder_name:Initialize()
 end
 
 function placeholder_name:PlayerDisconnected()
-	print("aa"..player.GetCount())
-	if(player.GetCount() <= 3)then
+	if(player.GetCount() <= 3 and placeholder_name.State.name != "waiting")then
 		timer.Simple(0,function()
 			states.Set("waiting")
 		end)

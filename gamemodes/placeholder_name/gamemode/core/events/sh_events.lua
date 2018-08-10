@@ -33,7 +33,7 @@ if SERVER then
 			net.WriteString(NextEvent.name)
 			net.Broadcast()
 		end
-		timer.Create("EventTimer",30,1,events.StartEventCycle)
+		timer.Create("EventTimer",10,1,events.StartEventCycle)
 	end
 
 	events.EndEventCycle = function()
@@ -48,6 +48,10 @@ elseif CLIENT then
 		time2 = SysTime()
 		if(CurrentEvent != nil)then
 			CurrentEvent.client()
+			hook.Remove("HUDPaint","EventHUD")
+			if(CurrentEvent.draw != nil)then
+				hook.Add("HUDPaint","EventHUD",CurrentEvent.draw)
+			end
 		end
 	end)
 
